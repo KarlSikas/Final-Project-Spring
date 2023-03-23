@@ -1,5 +1,7 @@
 package com.example.finalprojectspr.models;
 
+import com.example.finalprojectspr.services.CarService;
+
 /**
  * @author Karl-Erik Sirkas
  * @ Date 22.03.2023
@@ -7,7 +9,7 @@ package com.example.finalprojectspr.models;
 public class Booking {
     public String dateOfBooking;
     public Customer client;
-    public Car car;
+    public CarService car;
     public String dateFrom;
     public String dateTo;
 
@@ -33,11 +35,11 @@ public class Booking {
         this.client = client;
     }
 
-    public Car getCar() {
+    public CarService getCar() {
         return car;
     }
 
-    public void setCar(Car car) {
+    public void setCar(CarService car) {
         this.car = car;
     }
 
