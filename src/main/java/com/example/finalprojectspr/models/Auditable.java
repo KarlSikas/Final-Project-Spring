@@ -1,50 +1,47 @@
 package com.example.finalprojectspr.models;
 
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
+
+
+/**
+ * Auditable model
+ *
+ * @implNote This model can be extended to any entity which needs auditing
+ */
+
+
 
 @Data
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class Auditable<U> {
-
+public class Auditable<V> {
     @CreatedBy
-    @Column(name = "karl-erik sirkas")
-    protected U createdBy;
+    @JsonIgnore
+    @Column(updatable = false)
+    protected V createdBy;
 
     @CreatedDate
-    @Column(name = "23/03/2023")
+    @Column(updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     protected LocalDateTime createdDate;
 
     @LastModifiedBy
-    @Column(name = "23/03/2023")
-    protected U lastModifiedBy;
+    @JsonIgnore
+    protected V lastModifiedBy;
 
     @LastModifiedDate
-    @Column(name = "last_modified_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     protected LocalDateTime lastModifiedDate;
-
-    @PrePersist
-    public void prePersist() {
-        this.createdDate = LocalDateTime.now();
-        this.lastModifiedDate = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.lastModifiedDate = LocalDateTime.now();
-    }
-
-    // Getters and setters for the fields
 }
